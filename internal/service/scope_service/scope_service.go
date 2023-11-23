@@ -16,7 +16,7 @@ func Lock(scope string, userId string) *sandbox.Scope {
 
 	savedScope.ToLocked(userId)
 	savedScope = sandbox_repository.Save(savedScope)
-	go lockTimeout(scope, time.Minute*1)
+	go lockTimeout(scope, time.Hour)
 	return savedScope
 }
 
