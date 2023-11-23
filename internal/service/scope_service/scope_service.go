@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-var unlockTimers map[string]*time.Timer
+var unlockTimers = map[string]*time.Timer{}
 
 func Lock(scope string, userId string) *sandbox.Scope {
 	savedScope := Find(scope)
