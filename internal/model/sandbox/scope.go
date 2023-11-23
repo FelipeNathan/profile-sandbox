@@ -1,5 +1,7 @@
 package sandbox
 
+import "time"
+
 type StatusType string
 
 const (
@@ -8,14 +10,21 @@ const (
 )
 
 type Scope struct {
-	Name     string     `json:"name"`
-	Status   StatusType `json:"status"`
-	LockedBy string     `json:"lockedBy"`
+	Name     string
+	Status   StatusType
+	LockedBy string
+	LockedAt string
+	FinishAt string
+	LoadedAt string
 }
 
-func (scope *Scope) ToLocked(lockedBy string) {
+func (scope *Scope) ToLocked(lockedBy string, duration time.Duration) {
 	scope.LockedBy = lockedBy
 	scope.Status = Locked
+
+	lockedAt := time.Now()
+	scope.LockedAt = lockedAt.Format(time.RFC3339)
+	scope.FinishAt = lockedAt.Add(duration).Format(time.RFC3339)
 }
 
 func (scope *Scope) ToUnlocked() {
