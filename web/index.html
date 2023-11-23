@@ -37,14 +37,19 @@
             getModal().hide()
         }
 
-        function createInterval(loadedAt, finishAt, elementName) {
-            calculateRemainingTime(loadedAt, finishAt, elementName)
+        function nextInterval(loadedAt, finishAt, elementName) {
+            calculateTimeRemaining(loadedAt, finishAt, elementName)
+
+            if (loadedAt > finishAt) {
+                return
+            }
+
             setTimeout(() => {
-                createInterval(loadedAt, finishAt - second, elementName)
+                nextInterval(loadedAt + second, finishAt, elementName)
             }, second)
         }
 
-        function calculateRemainingTime(startTime, endTime, elementName) {
+        function calculateTimeRemaining(startTime, endTime, elementName) {
             let timeRemaining = endTime - startTime
             if (timeRemaining < 0) {
                 timeRemaining = 0
@@ -84,7 +89,7 @@
                             {{ end }}
                             <span class="text-dark blockquote-footer" id="timer-{{ .Name }}"></span>
                             <script type="application/javascript">
-                                createInterval(
+                                nextInterval(
                                     Date.parse("{{ .LoadedAt }}"),
                                     Date.parse("{{ .FinishAt }}"),
                                     "timer-{{ .Name }}"
