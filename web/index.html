@@ -52,7 +52,7 @@
             const remainingMinutes = Math.floor(timeRemaining / minute)
             const remainingSeconds = `${Math.floor((timeRemaining % minute) / second)}`.padStart(2, "0")
 
-            document.getElementById(elementName).innerText = `Finish in: ${remainingMinutes}:${remainingSeconds}`
+            document.getElementById(elementName).innerText = `Finish in ${remainingMinutes}:${remainingSeconds}`
         }
     </script>
 </head>
