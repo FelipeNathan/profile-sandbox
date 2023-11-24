@@ -15,7 +15,7 @@ type Scope struct {
 	LockedBy string
 	LockedAt time.Time
 	FinishAt time.Time
-	LoadedAt string
+	LoadedAt string `gorm:"-:all"`
 }
 
 func (scope *Scope) ToLocked(lockedBy string, duration time.Duration) {

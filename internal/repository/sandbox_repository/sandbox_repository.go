@@ -19,7 +19,9 @@ func Save(scope *sandbox.Scope) *sandbox.Scope {
 }
 
 func Remove(scope string) {
-	config.DB.Delete(&sandbox.Scope{}, scope)
+	config.DB.Delete(&sandbox.Scope{
+		Name: scope,
+	})
 }
 
 func LoadAll() []*sandbox.Scope {
