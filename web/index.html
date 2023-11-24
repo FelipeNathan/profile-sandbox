@@ -54,7 +54,7 @@
             if (timeRemaining < 0) {
                 timeRemaining = 0
             }
-            const remainingMinutes = Math.floor(timeRemaining / minute)
+            const remainingMinutes = `${Math.floor(timeRemaining / minute)}`.padStart(2, "0")
             const remainingSeconds = `${Math.floor((timeRemaining % minute) / second)}`.padStart(2, "0")
 
             document.getElementById(elementName).innerText = `Finish in ${remainingMinutes}:${remainingSeconds}`
@@ -68,18 +68,9 @@
             <div class="col-md-4 col-sm-6">
                 <div class="card text-dark bg-light mb-3">
                     <div class="card-header">
-<!--                        <form action="/status/command">-->
-                            <h5 class="card-title">
-                                {{ .Name }}
-<!--                                    <input type="hidden" name="command" value="remove">-->
-<!--                                    <input type="hidden" name="scope" value="{{.Name}}">-->
-<!--                                    <input type="hidden" name="user_id" value="0">-->
-<!--                                    <button class="btn btn-sm float-end">-->
-<!--                                        <img src="https://www.svgrepo.com/download/124212/remove.svg" alt="remove" width="18px">-->
-<!--                                    </button>-->
-                            </h5>
-<!--                        </form>-->
-
+                        <h5 class="card-title">
+                            {{ .Name }}
+                        </h5>
                     </div>
                     <div class="card-body">
                         {{ if eq .Status "Locked" }}
