@@ -1,9 +1,8 @@
-package scope_service
+package sandbox_service
 
 import (
 	"profile-sandbox/internal/model/sandbox"
-	"profile-sandbox/internal/repository/sandbox_repository"
-	"time"
+	"profile-sandbox/internal/service/scope_service"
 )
 
 func HandleCommand(request *sandbox.Request) (*sandbox.Scope, error) {
@@ -15,14 +14,14 @@ func HandleCommand(request *sandbox.Request) (*sandbox.Scope, error) {
 	var scope *sandbox.Scope
 	switch request.Command {
 	case sandbox.Lock:
-		scope = Lock(request.Scope, request.UserId)
+		scope = scope_service.Lock(request.Scope, request.UserId)
 	case sandbox.Unlock:
-		scope = Unlock(request.Scope)
+		scope = scope_service.Unlock(request.Scope)
 	case sandbox.Remove:
-		Remove(request.Scope)
+		scope_service.Remove(request.Scope)
 		fallthrough
 	case sandbox.Status:
-		scope = Find(request.Scope)
+		scope = scope_service.Find(request.Scope)
 	default:
 		return nil, sandbox.CommandNotFound
 	}
@@ -31,10 +30,5 @@ func HandleCommand(request *sandbox.Request) (*sandbox.Scope, error) {
 }
 
 func LoadAll() []*sandbox.Scope {
-
-	scopes := sandbox_repository.LoadAll()
-	for _, scope := range scopes {
-		scope.LoadedAt = time.Now().Format(time.RFC3339)
-	}
-	return sandbox_repository.LoadAll()
+	return scope_service.FindAll()
 }

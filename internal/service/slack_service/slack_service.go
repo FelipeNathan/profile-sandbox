@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"profile-sandbox/internal/model/sandbox"
 	"profile-sandbox/internal/model/slack"
-	"profile-sandbox/internal/service/scope_service"
+	"profile-sandbox/internal/service/sandbox_service"
 	"strings"
 )
 
@@ -14,7 +14,7 @@ func HandleCommand(body slack.Body) *slack.ResponseBlock {
 		return unknownCommandResponseBlock()
 	}
 
-	scope, err := scope_service.HandleCommand(request)
+	scope, err := sandbox_service.HandleCommand(request)
 	if err != nil {
 		return unknownCommandResponseBlock()
 	}

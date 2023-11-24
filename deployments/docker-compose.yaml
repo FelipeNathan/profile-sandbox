@@ -1,0 +1,9 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres"
+    environment:
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "profile_sandbox"
+    ports:
+      - "5432:5432"

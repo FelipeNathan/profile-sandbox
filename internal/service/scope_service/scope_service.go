@@ -40,10 +40,26 @@ func Remove(scope string) {
 func Find(scope string) *sandbox.Scope {
 	savedScope := sandbox_repository.FindBy(scope)
 	if savedScope != nil {
+		unlockIfTimedOut(savedScope)
 		return savedScope
 	}
 
 	return sandbox.NewAvailableScope(scope)
+}
+
+func FindAll() []*sandbox.Scope {
+	scopes := sandbox_repository.LoadAll()
+	for _, scope := range scopes {
+		unlockIfTimedOut(scope)
+		scope.LoadedAt = time.Now().Format(time.RFC3339)
+	}
+	return scopes
+}
+
+func unlockIfTimedOut(scope *sandbox.Scope) {
+	if scope.IsLocked() && time.Now().After(scope.FinishAt) {
+		scope = Unlock(scope.Name)
+	}
 }
 
 func lockTimeout(scope string, t time.Duration) {

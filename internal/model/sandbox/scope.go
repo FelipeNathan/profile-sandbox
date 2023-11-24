@@ -10,11 +10,11 @@ const (
 )
 
 type Scope struct {
-	Name     string
+	Name     string `gorm:"primaryKey"`
 	Status   StatusType
 	LockedBy string
-	LockedAt string
-	FinishAt string
+	LockedAt time.Time
+	FinishAt time.Time
 	LoadedAt string
 }
 
@@ -23,8 +23,8 @@ func (scope *Scope) ToLocked(lockedBy string, duration time.Duration) {
 	scope.Status = Locked
 
 	lockedAt := time.Now()
-	scope.LockedAt = lockedAt.Format(time.RFC3339)
-	scope.FinishAt = lockedAt.Add(duration).Format(time.RFC3339)
+	scope.LockedAt = lockedAt
+	scope.FinishAt = lockedAt.Add(duration)
 }
 
 func (scope *Scope) ToUnlocked() {

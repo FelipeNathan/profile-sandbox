@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"profile-sandbox/internal/model/sandbox"
-	"profile-sandbox/internal/service/scope_service"
+	"profile-sandbox/internal/service/sandbox_service"
 	"sort"
 )
 
@@ -15,7 +15,7 @@ func Status(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	scopes := scope_service.LoadAll()
+	scopes := sandbox_service.LoadAll()
 	sort.Slice(scopes, func(i, j int) bool {
 		return scopes[i].Name < scopes[j].Name
 	})
@@ -35,7 +35,7 @@ func Command(writer http.ResponseWriter, request *http.Request) {
 		UserId:  request.Form["user_id"][0],
 	}
 
-	_, err = scope_service.HandleCommand(req)
+	_, err = sandbox_service.HandleCommand(req)
 	http.Redirect(writer, request, "/status", 302)
 }
 
