@@ -45,7 +45,7 @@ func writePage(w http.ResponseWriter, scope []*sandbox.Scope, err error) {
 		return
 	}
 
-	t, err := template.ParseFiles("./web/index.html")
+	t, err := template.ParseFiles("./web/template/index.html")
 	if err != nil {
 		_, _ = w.Write([]byte(err.Error()))
 		return

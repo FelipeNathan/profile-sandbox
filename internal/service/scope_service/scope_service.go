@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-var unlockTimers = map[string]*time.Timer{}
-
 func Lock(scope string, userId string) *sandbox.Scope {
 	savedScope := Find(scope)
 	if savedScope.IsLocked() {
@@ -17,7 +15,6 @@ func Lock(scope string, userId string) *sandbox.Scope {
 	duration := time.Hour
 	savedScope.ToLocked(userId, duration)
 	savedScope = sandbox_repository.Save(savedScope)
-	go lockTimeout(scope, duration)
 	return savedScope
 }
 
@@ -29,7 +26,6 @@ func Unlock(scope string) *sandbox.Scope {
 
 	savedScope.ToUnlocked()
 	savedScope = sandbox_repository.Save(savedScope)
-	go cancelTimeout(scope)
 	return savedScope
 }
 
@@ -58,24 +54,11 @@ func FindAll() []*sandbox.Scope {
 
 func unlockIfTimedOut(scope *sandbox.Scope) {
 	if scope.IsLocked() && time.Now().After(scope.FinishAt) {
-		scope = Unlock(scope.Name)
+		UnlockInstance(scope)
 	}
 }
 
-func lockTimeout(scope string, t time.Duration) {
-	timeout := time.NewTimer(t)
-	unlockTimers[scope] = timeout
-	<-timeout.C
-	Unlock(scope)
-}
-
-func cancelTimeout(scope string) {
-	timeout, found := unlockTimers[scope]
-	if !found {
-		return
-	}
-
-	if !timeout.Stop() {
-		<-timeout.C
-	}
+func UnlockInstance(scope *sandbox.Scope) {
+	scope.ToUnlocked()
+	scope = sandbox_repository.Save(scope)
 }
