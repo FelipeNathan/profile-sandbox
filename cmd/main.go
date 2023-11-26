@@ -7,6 +7,9 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		http.Redirect(writer, request, "/status", 302)
+	})
 	http.HandleFunc("/slack", controller.Slack)
 	http.HandleFunc("/status", controller.Status)
 	http.HandleFunc("/status/command", controller.Command)
