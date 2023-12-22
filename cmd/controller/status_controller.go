@@ -6,6 +6,7 @@ import (
 	"profile-sandbox/internal/model/sandbox"
 	"profile-sandbox/internal/service/sandbox_service"
 	"sort"
+	"strconv"
 )
 
 func Status(writer http.ResponseWriter, request *http.Request) {
@@ -29,10 +30,16 @@ func Command(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	minutes, err := strconv.Atoi(request.Form["minutes"][0])
+	if err != nil {
+		minutes = 10
+	}
+
 	req := &sandbox.Request{
 		Command: sandbox.Command(request.Form["command"][0]),
 		Scope:   request.Form["scope"][0],
 		UserId:  request.Form["user_id"][0],
+		Minutes: minutes,
 	}
 
 	_, err = sandbox_service.HandleCommand(req)

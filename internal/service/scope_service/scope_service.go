@@ -6,13 +6,13 @@ import (
 	"time"
 )
 
-func Lock(scope string, userId string) *sandbox.Scope {
+func Lock(scope string, userId string, minutes int) *sandbox.Scope {
 	savedScope := Find(scope)
 	if savedScope.IsLocked() {
 		return savedScope
 	}
 
-	duration := time.Hour
+	duration := time.Minute * time.Duration(minutes)
 	savedScope.ToLocked(userId, duration)
 	savedScope = sandbox_repository.Save(savedScope)
 	return savedScope

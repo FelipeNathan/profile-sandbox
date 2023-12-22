@@ -1,4 +1,4 @@
-const app = (function(){
+const app = (function () {
     const second = 1000
     const minute = second * 60
 
@@ -11,12 +11,17 @@ const app = (function(){
         return modalForm
     }
 
-    function openModal(scope, suggestedCommand) {
+    function openModal(scope, suggestedCommand, isNew) {
         const modalScope = document.getElementById("modal-scope")
         modalScope.value = scope
+        modalScope.readOnly = !isNew
+        onScopeChange(modalScope)
 
         const modalCommand = document.getElementById("modal-command")
         modalCommand.value = suggestedCommand
+
+        const modalMinutes = document.getElementById("modal-minutes")
+        modalMinutes.value = "60"
 
         getModal().show()
     }
@@ -47,9 +52,40 @@ const app = (function(){
 
         document.getElementById(elementName).innerText = `Finish in ${remainingMinutes}:${remainingSeconds}`
     }
+
+    function validateForm() {
+        const modalScope = document.getElementById("modal-scope")
+        if (!onScopeChange(modalScope)) {
+            return false
+        }
+        const modalMinute = document.getElementById("modal-minutes")
+        onMinuteChange(modalMinute)
+        return true
+    }
+
     return {
         nextInterval,
         openModal,
-        cancel
+        cancel,
+        validateForm,
     }
 })()
+
+function onMinuteChange(input) {
+    if (!input.value) {
+        input.value = 10
+    }
+    if (input.value < parseInt(10)) {
+        input.value = 10
+    }
+}
+
+function onScopeChange(input) {
+    if (!input.value || input.value === "") {
+        input.classList.add("is-invalid")
+        return false
+    } else {
+        input.classList.remove("is-invalid")
+        return true
+    }
+}

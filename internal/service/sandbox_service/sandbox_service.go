@@ -14,7 +14,7 @@ func HandleCommand(request *sandbox.Request) (*sandbox.Scope, error) {
 	var scope *sandbox.Scope
 	switch request.Command {
 	case sandbox.Lock:
-		scope = scope_service.Lock(request.Scope, request.UserId)
+		scope = scope_service.Lock(request.Scope, request.UserId, request.Minutes)
 	case sandbox.Unlock:
 		scope = scope_service.Unlock(request.Scope)
 	case sandbox.Remove:

@@ -44,25 +44,35 @@
                 </div>
             </div>
             {{end}}
+            <div class="col-12">
+                <button class="btn btn-success" onclick="app.openModal('', 'lock', true)">New</button>
+            </div>
         </div>
 
-        <form action="/status/command">
-            <input type="hidden" name="scope" id="modal-scope" value="">
-
+        <form action="/status/command" class="needs-validation" onsubmit="return app.validateForm()">
             <div class="modal fade" id="modal-form">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="form-floating mb-3">
+                                <input type="text" name="scope" id="modal-scope" class="form-control" readonly onchange="onScopeChange(this)"/>
+                                <label for="scope" class="form-label">Scope</label>
+                            </div>
+                            <div class="form-floating mb-3">
                                 <select name="command" id="modal-command" class="form-select">
                                     <option value="lock" selected>Lock</option>
                                     <option value="unlock">Unlock</option>
+                                    <option value="remove">Remove</option>
                                 </select>
                                 <label for="modal-command" class="form-label">Command</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="text" name="user_id" id="user_id" value="" class="form-control">
                                 <label for="user_id" class="form-label">Who</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" min="10" step="1" name="minutes" id="modal-minutes" value="60" class="form-control" onchange="onMinuteChange(this)">
+                                <label for="minutes" class="form-label">How many minutes</label>
                             </div>
                         </div>
                         <div class="modal-footer">

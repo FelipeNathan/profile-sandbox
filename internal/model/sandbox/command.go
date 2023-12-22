@@ -25,6 +25,7 @@ type Request struct {
 	Command Command
 	Scope   string
 	UserId  string
+	Minutes int
 }
 
 func (r Request) IsKnownCommand() error {
