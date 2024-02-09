@@ -2,11 +2,13 @@ package controller
 
 import (
 	"html/template"
+	"math/rand"
 	"net/http"
 	"profile-sandbox/internal/model/sandbox"
 	"profile-sandbox/internal/service/sandbox_service"
 	"sort"
 	"strconv"
+	"time"
 )
 
 func Status(writer http.ResponseWriter, request *http.Request) {
@@ -65,6 +67,35 @@ func writePage(w http.ResponseWriter, scope []*sandbox.Scope, err error) {
 	}
 }
 
-func ShouldIActivateFTU(writer http.ResponseWriter, _ *http.Request) {
-	_, _ = writer.Write([]byte("NO"))
+func ShouldIActivateFTU(w http.ResponseWriter, _ *http.Request) {
+	t, err := template.ParseFiles("./web/template/ftu.html")
+	if err != nil {
+		_, _ = w.Write([]byte(err.Error()))
+		return
+	}
+
+	noLinks := []string{
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-1.jpg",
+		"https://www.liveabout.com/thmb/dheNUTdHLRC2RbyLDr6EfI1AaFI=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/RageFaceNo-5ae79bcd3128340037321cb4.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-5.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-4.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-3.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-2.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-1.jpg",
+		"https://cdn.ponly.com/wp-content/uploads/No-Memes-15.jpg",
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	index := rand.Intn(len(noLinks))
+	s := struct {
+		Link string
+	}{
+		Link: noLinks[index],
+	}
+
+	err = t.Execute(w, s)
+	if err != nil {
+		_, _ = w.Write([]byte(err.Error()))
+		return
+	}
 }
