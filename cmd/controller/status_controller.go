@@ -64,3 +64,7 @@ func writePage(w http.ResponseWriter, scope []*sandbox.Scope, err error) {
 		return
 	}
 }
+
+func ShouldIActivateFTU(writer http.ResponseWriter, _ *http.Request) {
+	_, _ = writer.Write([]byte("NO"))
+}

@@ -13,6 +13,7 @@ func main() {
 	http.HandleFunc("/slack", controller.Slack)
 	http.HandleFunc("/status", controller.Status)
 	http.HandleFunc("/status/command", controller.Command)
+	http.HandleFunc("/should_i_activate_ftu", controller.ShouldIActivateFTU)
 
 	http.Handle("/static/", staticHandler())
 
