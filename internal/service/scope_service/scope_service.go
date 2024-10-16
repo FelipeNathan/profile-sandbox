@@ -60,5 +60,5 @@ func unlockIfTimedOut(scope *sandbox.Scope) {
 
 func UnlockInstance(scope *sandbox.Scope) {
 	scope.ToUnlocked()
-	scope = sandbox_repository.Save(scope)
+	_ = sandbox_repository.Save(scope)
 }

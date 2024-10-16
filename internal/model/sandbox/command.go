@@ -9,9 +9,9 @@ type Command string
 
 const (
 	Lock   Command = "lock"
-	Unlock         = "unlock"
-	Status         = "status"
-	Remove         = "remove"
+	Unlock Command = "unlock"
+	Status Command = "status"
+	Remove Command = "remove"
 )
 
 var allCommands = map[Command]bool{

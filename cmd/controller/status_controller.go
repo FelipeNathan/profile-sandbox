@@ -8,7 +8,6 @@ import (
 	"profile-sandbox/internal/service/sandbox_service"
 	"sort"
 	"strconv"
-	"time"
 )
 
 func Status(writer http.ResponseWriter, request *http.Request) {
@@ -44,7 +43,7 @@ func Command(writer http.ResponseWriter, request *http.Request) {
 		Minutes: minutes,
 	}
 
-	_, err = sandbox_service.HandleCommand(req)
+	_, _ = sandbox_service.HandleCommand(req)
 	http.Redirect(writer, request, "/status", 302)
 }
 
@@ -85,7 +84,6 @@ func ShouldIActivateFTU(w http.ResponseWriter, _ *http.Request) {
 		"https://cdn.ponly.com/wp-content/uploads/No-Memes-15.jpg",
 	}
 
-	rand.Seed(time.Now().UnixNano())
 	index := rand.Intn(len(noLinks))
 	s := struct {
 		Link string

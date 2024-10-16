@@ -6,7 +6,7 @@ type StatusType string
 
 const (
 	Available StatusType = "Available"
-	Locked               = "Locked"
+	Locked    StatusType = "Locked"
 )
 
 type Scope struct {

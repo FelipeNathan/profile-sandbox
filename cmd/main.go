@@ -18,7 +18,7 @@ func main() {
 	http.Handle("/static/", staticHandler())
 
 	fmt.Println("Running")
-	http.ListenAndServe(":8080", nil)
+	_ = http.ListenAndServe(":8080", nil)
 }
 
 func staticHandler() http.Handler {
