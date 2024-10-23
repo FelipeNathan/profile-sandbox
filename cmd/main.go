@@ -7,15 +7,15 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		http.Redirect(writer, request, "/status", 302)
+	http.HandleFunc("/profile", func(writer http.ResponseWriter, request *http.Request) {
+		http.Redirect(writer, request, "/profile/status", 302)
 	})
-	http.HandleFunc("/slack", controller.Slack)
-	http.HandleFunc("/status", controller.Status)
-	http.HandleFunc("/status/command", controller.Command)
-	http.HandleFunc("/should_i_activate_ftu", controller.ShouldIActivateFTU)
+	http.HandleFunc("/profile/slack", controller.Slack)
+	http.HandleFunc("/profile/status", controller.Status)
+	http.HandleFunc("/profile/status/command", controller.Command)
+	http.HandleFunc("/profile/should_i_activate_ftu", controller.ShouldIActivateFTU)
 
-	http.Handle("/static/", staticHandler())
+	http.Handle("/profile/static/", staticHandler())
 
 	fmt.Println("Running")
 	_ = http.ListenAndServe(":8080", nil)
@@ -23,5 +23,5 @@ func main() {
 
 func staticHandler() http.Handler {
 	staticFileHandler := http.FileServer(http.Dir("./web/static/"))
-	return http.StripPrefix("/static/", staticFileHandler)
+	return http.StripPrefix("/profile/static/", staticFileHandler)
 }

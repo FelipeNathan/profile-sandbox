@@ -44,7 +44,7 @@ func Command(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	_, _ = sandbox_service.HandleCommand(req)
-	http.Redirect(writer, request, "/status", 302)
+	http.Redirect(writer, request, "/profile/status", 302)
 }
 
 func writePage(w http.ResponseWriter, scope []*sandbox.Scope, err error) {
