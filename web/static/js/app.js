@@ -89,3 +89,9 @@ function onScopeChange(input) {
         return true
     }
 }
+
+window.addEventListener('keyup', (e) => { 
+  if (e.ctrlKey && e.code == 'KeyN') {
+    app.openModal('', 'lock', true)
+  }
+})
