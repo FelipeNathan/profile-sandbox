@@ -4,24 +4,30 @@ import (
 	"fmt"
 	"net/http"
 	"profile-sandbox/cmd/controller"
+
+	"github.com/go-chi/chi/v5"
 )
 
-func main() {
-	http.HandleFunc("/profile", func(writer http.ResponseWriter, request *http.Request) {
-		http.Redirect(writer, request, "/profile/status", 302)
-	})
-	http.HandleFunc("/profile/slack", controller.Slack)
-	http.HandleFunc("/profile/status", controller.Status)
-	http.HandleFunc("/profile/status/command", controller.Command)
-	http.HandleFunc("/profile/should_i_activate_ftu", controller.ShouldIActivateFTU)
+const api = "/profile"
 
-	http.Handle("/profile/static/", staticHandler())
+func main() {
+	r := chi.NewRouter()
+	r.Route(api, func(r chi.Router) {
+		r.Get("/", func(writer http.ResponseWriter, request *http.Request) {
+			http.Redirect(writer, request, api+"/status", 302)
+		})
+		r.Get("/status", controller.Status)
+		r.Get("/status/command", controller.Command)
+		r.Get("/should_i_activate_ftu", controller.ShouldIActivateFTU)
+
+		r.Handle("/static/*", staticHandler())
+	})
 
 	fmt.Println("Running")
-	_ = http.ListenAndServe(":8080", nil)
+	_ = http.ListenAndServe(":8080", r)
 }
 
 func staticHandler() http.Handler {
 	staticFileHandler := http.FileServer(http.Dir("./web/static/"))
-	return http.StripPrefix("/profile/static/", staticFileHandler)
+	return http.StripPrefix(api+"/static/", staticFileHandler)
 }
