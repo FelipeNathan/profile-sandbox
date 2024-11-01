@@ -1,17 +1,5 @@
 services:
-  postgres:
-    image: "postgres"
-    container_name: "postgres"
-    environment:
-      POSTGRES_PASSWORD: "1234"
-      POSTGRES_DB: "profile_sandbox"
-    volumes:
-        - "db-data:/var/lib/postgresql/data"
-    ports:
-      - "5432:5432"
-    networks:
-        - common
-  web: 
+ web: 
     container_name: web
     build: .
     ports:
@@ -27,6 +15,3 @@ networks:
   common:
     external: true
 
-volumes:
-  db-data:
-    external: true
