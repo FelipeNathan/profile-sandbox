@@ -6,8 +6,6 @@ services:
       - "3001:8080"
     environment:
         DB_HOST: postgres
-    depends_on:
-      - postgres
     networks:
       - common
 
