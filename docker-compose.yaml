@@ -1,6 +1,7 @@
 services:
   postgres:
     image: "postgres"
+    container_name: "postgres"
     environment:
       POSTGRES_PASSWORD: "1234"
       POSTGRES_DB: "profile_sandbox"
@@ -28,3 +29,4 @@ networks:
 
 volumes:
   db-data:
+    external: true
